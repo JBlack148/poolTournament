@@ -23,9 +23,10 @@ def createNewTournament():
     for i in range(len(gamesArray)):
         for j in range(gamesPerRound):
             print(gamesArray[i][0] + " vs " + gamesArray[i][1])
-            choice = input("Do you want to save and exit? (y/n) ")
+            if j == 0:
+                choice = input("Do you want to save and exit? (y/n) ")
             # if user wants to save and exit, save the current state and exit the program
-            if choice == 'y' and j == 0:
+            if choice == 'y':
                 saveState(eloDict, i + 1, gamesArray, gamesPerRound)
                 return
             winner = input("Who won? ")
@@ -42,9 +43,10 @@ def loadTournament():
     for i in range(currentRound - 1, len(gamesArray)):
         for j in range(gamesPerRound):
             print(gamesArray[i][0] + " vs " + gamesArray[i][1])
-            choice = input("Do you want to save and exit? (y/n) ")
+            if j == 0:
+                choice = input("Do you want to save and exit? (y/n) ")
             # if user wants to save and exit, save the current state and exit the program
-            if choice == 'y' and j == 0:
+            if choice == 'y':
                 saveState(eloDict, i + 1, gamesArray, gamesPerRound)
                 return
             winner = input("Who won? ")
