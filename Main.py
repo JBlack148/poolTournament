@@ -32,6 +32,7 @@ def createNewTournament():
             eloDict = updateElo(gamesArray[i][0], gamesArray[i][1], eloDict)
         elif winner == gamesArray[i][1]:
             eloDict = updateElo(gamesArray[i][1], gamesArray[i][0], eloDict)
+    tournamentFinished(eloDict)
 
 def loadTournament():
     eloDict, currentRound, gamesArray = loadState()
@@ -49,6 +50,16 @@ def loadTournament():
             eloDict = updateElo(gamesArray[i][0], gamesArray[i][1], eloDict)
         elif winner == gamesArray[i][1]:
             eloDict = updateElo(gamesArray[i][1], gamesArray[i][0], eloDict)
+    tournamentFinished(eloDict)
+
+def tournamentFinished(eloDict):
+    print("Tournament finished! The winner is " 
+          + max(eloDict, key=eloDict.get) 
+          + " with an Elo rating of " 
+          + str(max(eloDict.values())) + ".")
+    print("Final Elo ratings:")
+    for player, elo in eloDict.items():
+        print(player + ": " + str(elo))
 
 
 
