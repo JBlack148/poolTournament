@@ -56,7 +56,7 @@ def tournamentFinished(eloDict):
     print("Tournament finished! The winner is " 
           + max(eloDict, key=eloDict.get) 
           + " with an Elo rating of " 
-          + str(max(eloDict.values())) + ".")
+          + str(round(max(eloDict.values()))) + ".")
     print("Final Elo ratings:")
     sortedElo = sorted(eloDict.items(), key=lambda item: item[1], reverse=True)
     for player, elo in sortedElo:
