@@ -25,7 +25,7 @@ def createNewTournament():
             print(gamesArray[i][0] + " vs " + gamesArray[i][1])
             choice = input("Do you want to save and exit? (y/n) ")
             # if user wants to save and exit, save the current state and exit the program
-            if choice == 'y':
+            if choice == 'y' and j == 0:
                 saveState(eloDict, i + 1, gamesArray, gamesPerRound)
                 return
             winner = input("Who won? ")
@@ -44,8 +44,8 @@ def loadTournament():
             print(gamesArray[i][0] + " vs " + gamesArray[i][1])
             choice = input("Do you want to save and exit? (y/n) ")
             # if user wants to save and exit, save the current state and exit the program
-            if choice == 'y':
-                saveState(eloDict, i + 1, gamesArray)
+            if choice == 'y' and j == 0:
+                saveState(eloDict, i + 1, gamesArray, gamesPerRound)
                 return
             winner = input("Who won? ")
             while winner != gamesArray[i][0] and winner != gamesArray[i][1]:
