@@ -1,10 +1,10 @@
 import json
 
 # saves the current state of the tournament to a json file
-def saveState(elo, current_round, games, gamesPerRound):
+def saveState(elo, games_to_play, games, gamesPerRound):
     state = {
         'elo': elo,
-        'current_round': current_round,
+        'games_to_play': games_to_play,
         'games': games,
         'games_per_round': gamesPerRound
     }
@@ -15,4 +15,4 @@ def saveState(elo, current_round, games, gamesPerRound):
 def loadState():
     with open('tournament_state.json', 'r') as f:
         state = json.load(f)
-    return state['elo'], state['current_round'], state['games'], state['games_per_round']
+    return state['elo'], state['games_to_play'], state['games'], state['games_per_round']

@@ -19,43 +19,71 @@ def createNewTournament():
     gamesArray = generateGameCount(playerArray)
     eloDict = baseElo(playerArray)
 
+    # set initial choice
+    choice = "n"
+
     # loop through games and update elo after each game
-    for i in range(len(gamesArray)):
+    gamesToPlay = len(gamesArray)
+    while gamesToPlay > 0:
+        # display games and ask user which game they want to play next
+        for i in range(len(gamesArray)):
+            print(str(i + 1) + ": " + gamesArray[i][0] + " vs " + gamesArray[i][1])
+        gameChoice = int(input("Which game do you want to play next? (enter the number) "))
+        while gameChoice < 1 or gameChoice > len(gamesArray):
+            gameChoice = int(input("Please enter a valid number. Which game do you want to play next? (enter the number) "))
+        i = gameChoice - 1
         for j in range(gamesPerRound):
             print(gamesArray[i][0] + " vs " + gamesArray[i][1])
-            if j == 0:
-                choice = input("Do you want to save and exit? (y/n) ")
-            # if user wants to save and exit, save the current state and exit the program
-            if choice == 'y':
-                saveState(eloDict, i + 1, gamesArray, gamesPerRound)
-                return
             winner = input("Who won? ")
             while winner != gamesArray[i][0] and winner != gamesArray[i][1]:
                 winner = input("Please enter a valid player name. Who won? ")
-            if winner == gamesArray[i][0]:
-                eloDict = updateElo(gamesArray[i][0], gamesArray[i][1], eloDict)
-            elif winner == gamesArray[i][1]:
-                eloDict = updateElo(gamesArray[i][1], gamesArray[i][0], eloDict)
+                if winner == gamesArray[i][0]:
+                    eloDict = updateElo(gamesArray[i][0], gamesArray[i][1], eloDict)
+                elif winner == gamesArray[i][1]:
+                    eloDict = updateElo(gamesArray[i][1], gamesArray[i][0], eloDict)
+        # remove selected game from games array and decrease games to play by 1
+        gamesArray.pop(i)
+        gamesToPlay -= 1
+        # save game if user wishes
+        if gamesToPlay > 0:
+            choice = input("Do you want to save and exit? (y/n) ")
+        # if user wants to save and exit, save the current state and exit the program
+        if choice == 'y':
+            saveState(eloDict, i + 1, gamesArray, gamesPerRound)
+            return
     tournamentFinished(eloDict)
 
 def loadTournament():
-    eloDict, currentRound, gamesArray, gamesPerRound = loadState()
-    for i in range(currentRound - 1, len(gamesArray)):
+    choice = "n"
+    eloDict, gamesToPlay, gamesArray, gamesPerRound = loadState()
+    while gamesToPlay > 0:
+        # display games and ask user which game they want to play next
+        for i in range(len(gamesArray)):
+            print(str(i + 1) + ": " + gamesArray[i][0] + " vs " + gamesArray[i][1])
+        gameChoice = int(input("Which game do you want to play next? (enter the number) "))
+        while gameChoice < 1 or gameChoice > len(gamesArray):
+            gameChoice = int(input("Please enter a valid number. Which game do you want to play next? (enter the number) "))
+        i = gameChoice - 1
         for j in range(gamesPerRound):
             print(gamesArray[i][0] + " vs " + gamesArray[i][1])
-            if j == 0:
-                choice = input("Do you want to save and exit? (y/n) ")
-            # if user wants to save and exit, save the current state and exit the program
-            if choice == 'y':
-                saveState(eloDict, i + 1, gamesArray, gamesPerRound)
-                return
             winner = input("Who won? ")
             while winner != gamesArray[i][0] and winner != gamesArray[i][1]:
                 winner = input("Please enter a valid player name. Who won? ")
-            if winner == gamesArray[i][0]:
-                eloDict = updateElo(gamesArray[i][0], gamesArray[i][1], eloDict)
-            elif winner == gamesArray[i][1]:
-                eloDict = updateElo(gamesArray[i][1], gamesArray[i][0], eloDict)
+                if winner == gamesArray[i][0]:
+                    eloDict = updateElo(gamesArray[i][0], gamesArray[i][1], eloDict)
+                elif winner == gamesArray[i][1]:
+                    eloDict = updateElo(gamesArray[i][1], gamesArray[i][0], eloDict)
+            
+        # remove selected game from games array and decrease games to play by 1
+        gamesArray.pop(i)
+        gamesToPlay -= 1
+        # save game if user wishes
+        if gamesToPlay > 0:
+            choice = input("Do you want to save and exit? (y/n) ")
+        # if user wants to save and exit, save the current state and exit the program
+        if choice == 'y':
+            saveState(eloDict, i + 1, gamesArray, gamesPerRound)
+            return
     tournamentFinished(eloDict)
 
 def tournamentFinished(eloDict):
