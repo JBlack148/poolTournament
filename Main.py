@@ -20,7 +20,15 @@ def createNewTournament():
     eloDict = baseElo(playerArray)
 
     # loop through games and update elo after each game
-    for i in range(len(gamesArray)):
+    gamesToPlay = len(gamesArray)
+    while gamesToPlay > 0:
+        # display games and ask user which game they want to play next
+        for i in range(len(gamesArray)):
+            print(str(i + 1) + ": " + gamesArray[i][0] + " vs " + gamesArray[i][1])
+        gameChoice = int(input("Which game do you want to play next? (enter the number) "))
+        while gameChoice < 1 or gameChoice > len(gamesArray):
+            gameChoice = int(input("Please enter a valid number. Which game do you want to play next? (enter the number) "))
+        i = gameChoice - 1
         for j in range(gamesPerRound):
             print(gamesArray[i][0] + " vs " + gamesArray[i][1])
             if j == 0:
@@ -36,6 +44,9 @@ def createNewTournament():
                 eloDict = updateElo(gamesArray[i][0], gamesArray[i][1], eloDict)
             elif winner == gamesArray[i][1]:
                 eloDict = updateElo(gamesArray[i][1], gamesArray[i][0], eloDict)
+        # remove selected game from games array and decrease games to play by 1
+        gamesArray.pop(i)
+        gamesToPlay -= 1
     tournamentFinished(eloDict)
 
 def loadTournament():
